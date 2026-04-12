@@ -1,8 +1,9 @@
 cff-version: 1.2.0
 title: "Pan-Cancer Somatic Pharmacogenomics Pipeline"
 authors:
-  - family-names: Jashuva
-    given-names: TJ
+  - family-names: T
+    given-names: Jashuva
+    nick-names: TJ
 date-released: 2026
 version: 1.0
-doi: 10.5281/zenodo.XXXXXXX
+will be filled after publication (currently under review)
