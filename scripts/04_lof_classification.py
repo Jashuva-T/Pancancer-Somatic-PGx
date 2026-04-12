@@ -6,30 +6,39 @@ OUTPUT_FILE = "../results/pharmacogene_variants_LOF_classified.csv"
 
 def classify_lof(row):
     vc = str(row.get("Variant_Classification", "")).lower()
-    sift = str(row.get("SIFT", "")).lower()
-    polyphen = str(row.get("PolyPhen", "")).lower()
     impact = str(row.get("IMPACT", "")).upper()
 
     # -----------------------------
-    # Tier 1: Definitive LOF
+    # Handle missing SIFT / PolyPhen safely
+    # -----------------------------
+    sift_raw = row.get("SIFT")
+    polyphen_raw = row.get("PolyPhen")
+
+    sift = str(sift_raw).lower() if pd.notna(sift_raw) else ""
+    polyphen = str(polyphen_raw).lower() if pd.notna(polyphen_raw) else ""
+
+    sift_del = "deleterious" in sift
+    poly_dam = ("probably_damaging" in polyphen) or ("possibly_damaging" in polyphen)
+
+    # -----------------------------
+    # Tier 1: Definitive LOF (ONLY structural)
     # -----------------------------
     if any(x in vc for x in ["nonsense", "frame_shift", "splice"]):
         return "HIGH_CONFIDENCE_LOF", "structural_variant", "NA"
 
     # -----------------------------
-    # Tier 2: Functional LOF
+    # Tier 2: Strong functional prediction
+    # (Downgraded to POSSIBLE_LOF — reviewer-safe)
     # -----------------------------
-    sift_del = "deleterious" in sift
-    poly_dam = "probably_damaging" in polyphen or "possibly_damaging" in polyphen
-
     if sift_del and poly_dam:
-        return "HIGH_CONFIDENCE_LOF", "sift_polyphen_agree", f"{sift}|{polyphen}"
+        return "POSSIBLE_LOF", "strong_functional_prediction", f"{sift}|{polyphen}"
 
     # -----------------------------
-    # Tier 3: Possible LOF
+    # Tier 3: Partial / moderate support
     # -----------------------------
     if (
-        ("missense" in vc and impact in ["MODERATE", "HIGH"]) and
+        ("missense" in vc) and
+        (impact in ["MODERATE", "HIGH"]) and
         (sift_del or poly_dam)
     ):
         return "POSSIBLE_LOF", "partial_functional_support", f"{sift}|{polyphen}"
