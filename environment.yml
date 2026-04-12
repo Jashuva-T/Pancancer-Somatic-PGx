@@ -1,0 +1,15 @@
+name: pgx-env
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pandas
+  - numpy
+  - biopython
+  - scipy
+  - matplotlib
+  - r-base=4.3.1
+  - r-data.table
+  - r-ggplot2
+  - r-survival
+  - r-fgsea
