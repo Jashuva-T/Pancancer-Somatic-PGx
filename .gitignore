@@ -209,3 +209,21 @@ data/*.gz
 data/*.maf
 __pycache__/
 *.pyc
+
+# macOS
+.DS_Store
+
+# Data
+data/*.gz
+data/*.maf
+
+# Results
+results/*.csv
+
+# Figures
+figures/*.png
+figures/*.jpg
+
+# Python
+__pycache__/
+*.pyc
