@@ -52,3 +52,48 @@ MIT Licensey
 # Pancancer-Somatic-PGx
 Pipeline for pan-cancer analysis of somatic pharmacogene variants (CYP2D6, CYP2C19, DPYD, TPMT), including LOF classification, PharmVar mapping, and phenotype override modelling with CPIC-based clinical actionability.
 
+## Input Format
+
+- TCGA MC3 MAF file (GRCh37)
+- Required columns:
+  - Hugo_Symbol
+  - Variant_Classification
+  - HGVSp_Short
+
+## Output Files
+
+| File | Description |
+|------|------------|
+| pharmacogene_variants.csv | Filtered pharmacogene variants |
+| pharmacogene_variants_annotated.csv | Annotated variants |
+
+## Pipeline Overview
+
+TCGA MAF  
+↓  
+Variant Extraction (Python)  
+↓  
+Variant Annotation (Python)  
+↓  
+LOF Classification (Next step)  
+↓  
+Statistical Analysis (R)  
+↓  
+Figures  
+
+## Data Versions
+
+- TCGA MC3: v0.2.8
+- gnomAD: v4.1
+- PharmVar: [add version when used]
+- CPIC: [add version when used]
+
+## Example Run
+
+cd scripts  
+python3 02_variant_extraction.py  
+python3 03_pharmvar_mapping.py  
+
+## Reproducibility Statement
+
+This pipeline reproduces all results presented in the manuscript when executed using the specified data sources and versions.

@@ -1,3 +1,15 @@
+"""
+Script: 02_variant_extraction.py
+
+Purpose:
+Extract pharmacogene variants from TCGA MC3 dataset
+
+Input:
+- data/mc3.v0.2.8.PUBLIC.maf.gz
+
+Output:
+- results/pharmacogene_variants.csv
+"""
 #!/usr/bin/env python3
 
 import pandas as pd
